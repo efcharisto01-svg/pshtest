@@ -18,7 +18,7 @@
     <main class="home__body">
       <div class="home__top">
         <span class="home__name">김포우리병원</span>
-        <a class="pill glass" href="#">로그인</a>
+        <a class="pill glass" href="#" id="auth-pill">로그인</a>
       </div>
 
       <section class="widget glass" aria-label="오늘 진료">
@@ -39,10 +39,11 @@
   <div class="sheet__panel">
     <div class="row"><h2 id="reserve-sheet-title">예약·접수</h2><button class="btn btn--ghost" type="button" data-close>닫기</button></div>
     <p class="muted">김포우리병원은 처음이신가요?</p>
-    <a class="choice choice--primary" href="reserve-first.html"><span class="choice__main"><span class="choice__title">처음 방문</span><span class="choice__sub">진료 기록이 없어요. 기본 정보부터 입력해요.</span></span></a>
-    <a class="choice" href="#" aria-disabled="true"><span class="choice__main"><span class="choice__title">재방문</span><span class="choice__sub">전에 진료받은 적이 있어요.</span></span><span class="badge badge--info">준비 중</span></a>
+    <a class="choice choice--primary" href="reserve-first.html"><span class="choice__main"><span class="choice__title">처음 방문 (초진)</span><span class="choice__sub">진료과를 고르거나 추천받아 접수해요.</span></span></a>
+    <a class="choice" href="#" aria-disabled="true"><span class="choice__main"><span class="choice__title">재방문 (재진)</span><span class="choice__sub">전에 진료받은 적이 있어요.</span></span><span class="badge badge--info">준비 중</span></a>
   </div>
 </div>
 <script src="js/main.js"></script>
+<script src="js/session.js"></script>
 </body>
 </html>

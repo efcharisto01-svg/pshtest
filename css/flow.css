@@ -1,0 +1,31 @@
+/* 접수 흐름 전용: 인체 모형도, 상태 표시 */
+
+/* 인체 모형도 */
+.bodymap { display: flex; flex-direction: column; align-items: center; gap: var(--sp-3); }
+.bodymap svg { width: 100%; max-width: 240px; height: auto; max-height: 52dvh; touch-action: manipulation; }
+.bodymap .part { fill: var(--primary-soft); stroke: var(--primary); stroke-width: 1.5; cursor: pointer; transition: fill 0.12s; }
+.bodymap .part:hover { fill: color-mix(in srgb, var(--primary) 30%, var(--primary-soft)); }
+.bodymap .part:focus-visible { outline: none; stroke: var(--focus); stroke-width: 3; }
+.bodymap .part[aria-pressed="true"] { fill: var(--primary); }
+.bodymap__picked { min-height: 28px; font-weight: 700; color: var(--primary); }
+
+/* 질문 묶음 */
+.ask { display: flex; flex-direction: column; gap: var(--sp-3); }
+.ask__q { font-weight: 700; }
+
+/* 추천 결과 */
+.reco { border-color: var(--primary); background: var(--primary-soft); }
+.reco__dept { font-size: var(--fs-2xl); font-weight: 700; color: var(--primary); line-height: 1.2; }
+
+/* 접수 상태 표시 (요청 → 대기 → 완료) */
+.track { display: flex; list-style: none; margin: 0; padding: 0; }
+.track li { flex: 1; display: flex; flex-direction: column; align-items: center; gap: var(--sp-2); font-size: var(--fs-xs); color: var(--muted); position: relative; text-align: center; }
+.track li::before { content: ""; width: 14px; height: 14px; border-radius: 50%; background: var(--line); z-index: 1; }
+.track li:not(:first-child)::after { content: ""; position: absolute; top: 6px; right: 50%; width: 100%; height: 2px; background: var(--line); }
+.track li[data-state="done"], .track li[aria-current="step"] { color: var(--fg); font-weight: 700; }
+.track li[data-state="done"]::before, .track li[aria-current="step"]::before { background: var(--primary); }
+.track li[data-state="done"]::after, .track li[aria-current="step"]::after { background: var(--primary); }
+.track li[aria-current="step"]::before { box-shadow: 0 0 0 5px var(--primary-soft); }
+.ticket { text-align: center; padding: var(--sp-5) var(--sp-4); display: flex; flex-direction: column; gap: var(--sp-2); }
+.ticket__no { font-size: 2.5rem; font-weight: 700; letter-spacing: 0.04em; font-variant-numeric: tabular-nums; }
+.demo { border: 1px dashed var(--line); border-radius: var(--radius-md); padding: var(--sp-4); display: flex; flex-direction: column; gap: var(--sp-3); }

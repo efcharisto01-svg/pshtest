@@ -3,26 +3,97 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>처음 방문 예약</title>
+  <title>처음 방문 접수</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap">
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/flow.css">
 </head>
 <body>
 <div class="screen">
   <header class="appbar">
     <button class="appbar__back" type="button" id="back" aria-label="이전">‹</button>
-    <span class="appbar__title">처음 방문 예약</span>
+    <span class="appbar__title">처음 방문 접수</span>
     <span class="appbar__spacer"></span>
-    <span class="appbar__step num" id="step-label">1 / 4</span>
+    <span class="appbar__step num" id="step-label"></span>
   </header>
 
-  <main class="screen__body screen__body--with-bar">
-    <ol class="steps" id="steps" aria-label="진행 단계"><li></li><li></li><li></li><li></li></ol>
+  <main class="screen__body screen__body--with-bar" id="main">
+    <ol class="steps" id="steps" aria-label="진행 단계"></ol>
+    <p class="notice" id="login-note" hidden></p>
 
-    <!-- 1. 환자 정보 -->
-    <section class="stack" data-step="1">
+    <!-- 0. 진료과 선택 / 추천 -->
+    <section class="stack" data-step="mode">
+      <h1>어떻게 접수할까요?</h1>
+      <button class="choice choice--primary" type="button" id="mode-select"><span class="choice__main"><span class="choice__title">진료과 선택</span><span class="choice__sub">가려는 진료과를 이미 알고 있어요.</span></span></button>
+      <button class="choice" type="button" id="mode-recommend"><span class="choice__main"><span class="choice__title">진료과 추천</span><span class="choice__sub">어디가 아픈지 알려주면 진료과를 추천해 드려요.</span></span></button>
+    </section>
+
+    <!-- A-1. 진료과 선택 -->
+    <section class="stack" data-step="dept" hidden>
+      <h1>진료과를 선택해 주세요</h1>
+      <p class="muted" id="dept-hint"></p>
+      <ul class="list" id="dept-list"></ul>
+    </section>
+
+    <!-- B-1. 인체 모형도 -->
+    <section class="stack" data-step="body" hidden>
+      <h1>어디가 아픈가요?</h1>
+      <p class="muted">아픈 부위를 눌러 주세요.</p>
+      <div class="bodymap">
+        <div class="chips" role="group" aria-label="보는 방향"><button class="chip" type="button" data-side="front" aria-pressed="true">앞</button><button class="chip" type="button" data-side="back" aria-pressed="false">뒤</button></div>
+        <svg id="body-svg" viewBox="0 0 200 396" role="group" aria-label="인체 모형도"></svg>
+        <p class="bodymap__picked" id="picked" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <!-- B-2. 질문 -->
+    <section class="stack" data-step="ask" hidden>
+      <h1>어떻게 아픈가요?</h1>
+      <p class="muted" id="ask-part"></p>
+      <div class="ask"><span class="ask__q" id="q-depth">1. 어느 쪽이 아픈가요?</span>
+        <div class="chips" role="group" aria-labelledby="q-depth" data-ask="depth">
+          <button class="chip" type="button" data-v="inside" aria-pressed="false">몸 안쪽(속)</button>
+          <button class="chip" type="button" data-v="outside" aria-pressed="false">겉(피부·근육·뼈)</button></div></div>
+      <div class="ask"><span class="ask__q" id="q-type">2. 어떤 느낌인가요?</span>
+        <div class="chips" role="group" aria-labelledby="q-type" data-ask="type">
+          <button class="chip" type="button" data-v="stab" aria-pressed="false">찌르듯이</button>
+          <button class="chip" type="button" data-v="cut" aria-pressed="false">칼로 베는 듯이</button>
+          <button class="chip" type="button" data-v="throb" aria-pressed="false">욱신욱신 쑤셔요</button>
+          <button class="chip" type="button" data-v="dull" aria-pressed="false">묵직하고 뻐근해요</button>
+          <button class="chip" type="button" data-v="squeeze" aria-pressed="false">조이거나 눌러요</button>
+          <button class="chip" type="button" data-v="burn" aria-pressed="false">화끈거리거나 가려워요</button>
+          <button class="chip" type="button" data-v="numb" aria-pressed="false">저리고 감각이 이상해요</button></div></div>
+      <div class="ask"><span class="ask__q" id="q-cause">3. 어떻게 시작됐나요?</span>
+        <div class="chips" role="group" aria-labelledby="q-cause" data-ask="cause">
+          <button class="chip" type="button" data-v="injury" aria-pressed="false">다치거나 부딪혔어요</button>
+          <button class="chip" type="button" data-v="sudden" aria-pressed="false">갑자기 아파요</button>
+          <button class="chip" type="button" data-v="gradual" aria-pressed="false">서서히 심해졌어요</button></div></div>
+    </section>
+
+    <!-- B-3. 추천 결과 -->
+    <section class="stack" data-step="result" hidden>
+      <h1>이 진료과를 추천해요</h1>
+      <div class="card reco stack"><span class="muted">추천 진료과</span><span class="reco__dept" id="reco-dept"></span><p id="reco-reason"></p></div>
+      <p class="notice notice--warn" id="reco-warn" hidden></p>
+      <div class="stack" id="reco-others-box"><h2>다른 후보</h2><ul class="list" id="reco-others"></ul></div>
+      <button class="btn btn--ghost btn--block" type="button" id="reco-manual">직접 진료과 고르기</button>
+      <p class="muted">입력한 내용을 바탕으로 한 참고 안내이며, 진단이 아닙니다.</p>
+    </section>
+
+    <!-- 증상 서술 -->
+    <section class="stack" data-step="symptom" hidden>
+      <h1>증상을 알려 주세요</h1>
+      <div class="chips"><span class="badge badge--info" id="symptom-dept"></span></div>
+      <div class="field"><label class="field__label" for="symptom">증상 설명</label>
+        <textarea class="input" id="symptom" maxlength="500" placeholder="언제부터, 어디가, 어떻게 아픈지 적어 주세요."></textarea>
+        <span class="field__help"><span id="symptom-count">0</span> / 500자</span>
+        <span class="field__error" id="symptom-err" hidden>증상을 5자 이상 적어 주세요.</span></div>
+    </section>
+
+    <!-- 환자 정보 (로그인하지 않았을 때만) -->
+    <section class="stack" data-step="patient" hidden>
       <h1>환자 정보를 입력해 주세요</h1>
       <p class="muted">처음 오시는 분은 접수에 필요한 기본 정보만 받아요.</p>
       <div class="field"><label class="field__label" for="name">이름</label><input class="input" id="name" autocomplete="name" placeholder="홍길동"><span class="field__error" id="name-err" hidden>이름을 입력해 주세요.</span></div>
@@ -30,55 +101,26 @@
       <div class="field"><span class="field__label" id="gender-label">성별</span>
         <div class="chips" role="group" aria-labelledby="gender-label"><button class="chip" type="button" data-gender="여성" aria-pressed="false">여성</button><button class="chip" type="button" data-gender="남성" aria-pressed="false">남성</button></div>
         <span class="field__error" id="gender-err" hidden>성별을 선택해 주세요.</span></div>
-      <div class="field"><label class="field__label" for="phone">휴대폰 번호</label><input class="input num" id="phone" inputmode="tel" autocomplete="tel" maxlength="13" placeholder="010-0000-0000"><span class="field__help">예약 확인 문자를 보내드려요.</span><span class="field__error" id="phone-err" hidden>휴대폰 번호를 정확히 입력해 주세요.</span></div>
+      <div class="field"><label class="field__label" for="phone">휴대폰 번호</label><input class="input num" id="phone" inputmode="tel" autocomplete="tel" maxlength="13" placeholder="010-0000-0000"><span class="field__help">접수 상태를 문자로 알려드려요.</span><span class="field__error" id="phone-err" hidden>휴대폰 번호를 정확히 입력해 주세요.</span></div>
       <label class="check"><input type="checkbox" id="agree"> 개인정보 수집·이용에 동의합니다 (필수)</label>
-      <span class="field__error" id="agree-err" hidden>동의해야 예약할 수 있어요.</span>
+      <span class="field__error" id="agree-err" hidden>동의해야 접수할 수 있어요.</span>
     </section>
 
-    <!-- 2. 진료과 -->
-    <section class="stack" data-step="2" hidden>
-      <h1>진료과를 선택해 주세요</h1>
-      <p class="muted">어느 과인지 모르면 내과로 접수하면 안내해 드려요.</p>
-      <ul class="list" id="dept-list"></ul>
-    </section>
-
-    <!-- 3. 의사·날짜·시간 -->
-    <section class="stack" data-step="3" hidden>
-      <h1>의사와 시간을 선택해 주세요</h1>
-      <p class="muted" id="dept-note"></p>
-      <h2>의사</h2>
-      <div class="stack" id="doctor-list" role="radiogroup" aria-label="의사"></div>
-      <h2>날짜</h2>
-      <div class="chips" id="date-list" role="group" aria-label="날짜"></div>
-      <h2>시간</h2>
-      <div class="chips" id="time-list" role="group" aria-label="시간"></div>
-      <div class="field"><label class="field__label" for="memo">증상 메모 (선택)</label><textarea class="input" id="memo" placeholder="증상을 간단히 적어 주세요."></textarea></div>
-    </section>
-
-    <!-- 4. 확인 -->
-    <section class="stack" data-step="4" hidden>
-      <h1>예약 내용을 확인해 주세요</h1>
-      <dl class="summary card" id="confirm"></dl>
-      <p class="notice">처음 방문은 접수 후 기본 문진이 있어서 진료 시작 20분 전까지 오시는 걸 권해요.</p>
-      <p class="muted">진료비와 의사, 시간은 예시 정보입니다.</p>
+    <!-- 접수 대기 / 완료 -->
+    <section class="stack" data-step="status" hidden>
+      <ol class="track" id="track"><li>접수 요청</li><li>접수 대기</li><li>접수 완료</li></ol>
+      <div class="card ticket"><span class="muted" id="ticket-label">접수번호</span><span class="ticket__no" id="ticket-no"></span><div><span class="badge badge--warn" id="status-badge">접수 대기</span></div><p id="status-msg"></p></div>
+      <dl class="summary card" id="status-summary"></dl>
+      <div class="demo" id="demo-box"><p class="muted">[데모] 접수 완료로 바뀌는 조건은 아직 정해지지 않았어요. 아래 버튼으로 병원에서 접수를 확인한 상황을 미리 볼 수 있어요.</p><button class="btn btn--secondary btn--block" type="button" id="demo-done">접수 완료 처리 (데모)</button></div>
     </section>
   </main>
 
-  <div class="bottom-bar"><button class="btn btn--block" type="button" id="next">다음</button></div>
-</div>
-
-<div class="sheet" id="login-sheet" role="dialog" aria-modal="true" aria-labelledby="login-title" hidden>
-  <div class="sheet__backdrop" data-close></div>
-  <div class="sheet__panel">
-    <h2 id="login-title">로그인이 필요해요</h2>
-    <p class="muted">예약을 접수하려면 로그인이나 회원가입을 해야 해요. 입력한 내용은 그대로 유지돼요.</p>
-    <button class="btn btn--block" type="button" disabled>로그인 (준비 중)</button>
-    <button class="btn btn--secondary btn--block" type="button" disabled>회원가입 (준비 중)</button>
-    <button class="btn btn--ghost btn--block" type="button" data-close>돌아가기</button>
-  </div>
+  <div class="bottom-bar" id="bar" hidden><button class="btn btn--block" type="button" id="next">다음</button></div>
 </div>
 
 <script src="js/main.js"></script>
+<script src="js/session.js"></script>
+<script src="js/recommend.js"></script>
 <script src="js/reserve-first.js"></script>
 </body>
 </html>

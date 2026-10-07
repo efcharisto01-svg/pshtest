@@ -47,7 +47,7 @@
 /* 내역 목록 (예약 확인, 결제 내역) */
 .summary { margin: 0; display: flex; flex-direction: column; }
 .summary > div { display: flex; justify-content: space-between; gap: var(--sp-4); padding: var(--sp-3) 0; border-bottom: 1px solid var(--line); }
-.summary dt { color: var(--muted); }
+.summary dt { color: var(--muted); white-space: nowrap; }
 .summary dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
 .summary .total { font-weight: 700; font-size: var(--fs-lg); border-bottom: 0; }
 
