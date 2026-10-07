@@ -1,14 +1,14 @@
 /* 홈 화면: 병원 전경 배경 위에 유리(glass) 아이콘을 올리는 iOS 홈 스타일 */
 .home {
   /* 사진이 없으면 아래 그라데이션이 배경이 된다. 사진은 assets/hospital.jpg */
-  --glass: rgba(255, 255, 255, 0.10);
-  --glass-strong: rgba(255, 255, 255, 0.16);
-  --glass-line: rgba(255, 255, 255, 0.30);
-  --on-photo: #ffffff;
+  --glass: rgba(255, 255, 255, 0.38);
+  --glass-strong: rgba(255, 255, 255, 0.55);
+  --glass-line: rgba(255, 255, 255, 0.75);
+  --on-photo: #0f2c35;
   min-height: 100dvh;
   color: var(--on-photo);
   background:
-    linear-gradient(180deg, rgba(8, 24, 30, 0.22) 0%, rgba(8, 24, 30, 0.04) 45%, rgba(8, 24, 30, 0.32) 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.66) 100%),
     url("../assets/hospital.jpg") 38% center / cover no-repeat,
     linear-gradient(160deg, #5aa7b5 0%, #2f6f7a 45%, #16363f 100%);
   background-attachment: fixed;
@@ -16,13 +16,13 @@
 .home .screen { background: transparent; }
 .home__body { flex: 1; display: flex; flex-direction: column; gap: var(--sp-6); padding: var(--sp-5) var(--sp-4) calc(112px + var(--sp-4)); }
 .home a, .home button { color: inherit; text-decoration: none; }
-.home :focus-visible { outline-color: #fff; }
+.home :focus-visible { outline-color: var(--on-photo); }
 
-.glass { background: var(--glass); border: 1px solid var(--glass-line); border-radius: 24px; -webkit-backdrop-filter: blur(12px) saturate(150%); backdrop-filter: blur(12px) saturate(150%); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.35); }
+.glass { background: var(--glass); border: 1px solid var(--glass-line); border-radius: 24px; -webkit-backdrop-filter: blur(12px) saturate(150%); backdrop-filter: blur(12px) saturate(150%); box-shadow: 0 6px 20px rgba(15, 44, 53, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.8); }
 
 /* 상단: 병원 이름과 로그인 */
 .home__top { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); }
-.home__name { font-size: var(--fs-lg); font-weight: 700; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35); }
+.home__name { font-size: var(--fs-lg); font-weight: 700; text-shadow: 0 1px 6px rgba(255, 255, 255, 0.6); }
 .pill { min-height: 36px; padding: 0 var(--sp-4); display: inline-flex; align-items: center; border-radius: var(--radius-pill); font-size: var(--fs-sm); font-weight: 700; }
 
 /* 위젯: 오늘 진료 상태 */
@@ -31,14 +31,14 @@
 .widget__title { font-size: var(--fs-2xl); font-weight: 700; line-height: 1.25; }
 .widget__sub { font-size: var(--fs-sm); opacity: 0.9; }
 .live { display: inline-flex; align-items: center; gap: var(--sp-2); font-weight: 700; }
-.live::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: #5be49b; box-shadow: 0 0 0 4px rgba(91, 228, 155, 0.3); }
+.live::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: #1f9d5c; box-shadow: 0 0 0 4px rgba(31, 157, 92, 0.25); }
 
 /* 앱 아이콘 격자 */
 .apps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-5) var(--sp-3); list-style: none; margin: 0; padding: 0; }
 .app { display: flex; flex-direction: column; align-items: center; gap: var(--sp-2); min-width: 0; }
 .app__icon { width: 100%; max-width: 68px; aspect-ratio: 1; border-radius: 22%; display: grid; place-items: center; }
-.app__icon svg { width: 46%; height: 46%; fill: none; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.app__label { font-size: var(--fs-xs); font-weight: 700; text-align: center; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45); }
+.app__icon svg { width: 46%; height: 46%; fill: none; stroke: var(--on-photo); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.app__label { font-size: var(--fs-xs); font-weight: 700; text-align: center; text-shadow: 0 1px 4px rgba(255, 255, 255, 0.7); }
 .app:active .app__icon { background: var(--glass-strong); }
 
 /* 하단 독 */
