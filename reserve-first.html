@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>처음 방문 예약</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+<div class="screen">
+  <header class="appbar">
+    <button class="appbar__back" type="button" id="back" aria-label="이전">‹</button>
+    <span class="appbar__title">처음 방문 예약</span>
+    <span class="appbar__spacer"></span>
+    <span class="appbar__step num" id="step-label">1 / 4</span>
+  </header>
+
+  <main class="screen__body screen__body--with-bar">
+    <ol class="steps" id="steps" aria-label="진행 단계"><li></li><li></li><li></li><li></li></ol>
+
+    <!-- 1. 환자 정보 -->
+    <section class="stack" data-step="1">
+      <h1>환자 정보를 입력해 주세요</h1>
+      <p class="muted">처음 오시는 분은 접수에 필요한 기본 정보만 받아요.</p>
+      <div class="field"><label class="field__label" for="name">이름</label><input class="input" id="name" autocomplete="name" placeholder="홍길동"><span class="field__error" id="name-err" hidden>이름을 입력해 주세요.</span></div>
+      <div class="field"><label class="field__label" for="birth">생년월일 8자리</label><input class="input num" id="birth" inputmode="numeric" maxlength="8" placeholder="19900101"><span class="field__error" id="birth-err" hidden>8자리 숫자로 입력해 주세요. 예: 19900101</span></div>
+      <div class="field"><span class="field__label" id="gender-label">성별</span>
+        <div class="chips" role="group" aria-labelledby="gender-label"><button class="chip" type="button" data-gender="여성" aria-pressed="false">여성</button><button class="chip" type="button" data-gender="남성" aria-pressed="false">남성</button></div>
+        <span class="field__error" id="gender-err" hidden>성별을 선택해 주세요.</span></div>
+      <div class="field"><label class="field__label" for="phone">휴대폰 번호</label><input class="input num" id="phone" inputmode="tel" autocomplete="tel" maxlength="13" placeholder="010-0000-0000"><span class="field__help">예약 확인 문자를 보내드려요.</span><span class="field__error" id="phone-err" hidden>휴대폰 번호를 정확히 입력해 주세요.</span></div>
+      <label class="check"><input type="checkbox" id="agree"> 개인정보 수집·이용에 동의합니다 (필수)</label>
+      <span class="field__error" id="agree-err" hidden>동의해야 예약할 수 있어요.</span>
+    </section>
+
+    <!-- 2. 진료과 -->
+    <section class="stack" data-step="2" hidden>
+      <h1>진료과를 선택해 주세요</h1>
+      <p class="muted">어느 과인지 모르면 내과로 접수하면 안내해 드려요.</p>
+      <ul class="list" id="dept-list"></ul>
+    </section>
+
+    <!-- 3. 의사·날짜·시간 -->
+    <section class="stack" data-step="3" hidden>
+      <h1>의사와 시간을 선택해 주세요</h1>
+      <p class="muted" id="dept-note"></p>
+      <h2>의사</h2>
+      <div class="stack" id="doctor-list" role="radiogroup" aria-label="의사"></div>
+      <h2>날짜</h2>
+      <div class="chips" id="date-list" role="group" aria-label="날짜"></div>
+      <h2>시간</h2>
+      <div class="chips" id="time-list" role="group" aria-label="시간"></div>
+      <div class="field"><label class="field__label" for="memo">증상 메모 (선택)</label><textarea class="input" id="memo" placeholder="증상을 간단히 적어 주세요."></textarea></div>
+    </section>
+
+    <!-- 4. 확인 -->
+    <section class="stack" data-step="4" hidden>
+      <h1>예약 내용을 확인해 주세요</h1>
+      <dl class="summary card" id="confirm"></dl>
+      <p class="notice">처음 방문은 접수 후 기본 문진이 있어서 진료 시작 20분 전까지 오시는 걸 권해요.</p>
+      <p class="muted">진료비와 의사, 시간은 예시 정보입니다.</p>
+    </section>
+  </main>
+
+  <div class="bottom-bar"><button class="btn btn--block" type="button" id="next">다음</button></div>
+</div>
+
+<div class="sheet" id="login-sheet" role="dialog" aria-modal="true" aria-labelledby="login-title" hidden>
+  <div class="sheet__backdrop" data-close></div>
+  <div class="sheet__panel">
+    <h2 id="login-title">로그인이 필요해요</h2>
+    <p class="muted">예약을 접수하려면 로그인이나 회원가입을 해야 해요. 입력한 내용은 그대로 유지돼요.</p>
+    <button class="btn btn--block" type="button" disabled>로그인 (준비 중)</button>
+    <button class="btn btn--secondary btn--block" type="button" disabled>회원가입 (준비 중)</button>
+    <button class="btn btn--ghost btn--block" type="button" data-close>돌아가기</button>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+<script src="js/reserve-first.js"></script>
+</body>
+</html>

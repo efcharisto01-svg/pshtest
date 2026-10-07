@@ -1,6 +1,7 @@
 /* 기본 규칙: 리셋, 본문, 화면 틀 */
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
+[hidden] { display: none !important; }
 body {
   margin: 0;
   min-height: 100dvh;

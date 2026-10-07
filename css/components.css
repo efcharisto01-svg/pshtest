@@ -78,3 +78,27 @@ textarea.input { padding: var(--sp-3) var(--sp-4); min-height: 96px; resize: ver
 .list__title { font-weight: 700; overflow-wrap: anywhere; }
 .list__sub { font-size: var(--fs-sm); color: var(--muted); overflow-wrap: anywhere; }
 .list__aside { flex: none; text-align: right; font-variant-numeric: tabular-nums; }
+
+/* 바텀시트(팝업): 모바일에서는 아래에서 올라오고, 큰 화면에서는 가운데에 뜬다 */
+.sheet { position: fixed; inset: 0; z-index: 50; display: flex; align-items: flex-end; justify-content: center; }
+.sheet[hidden] { display: none; }
+.sheet__backdrop { position: absolute; inset: 0; background: rgba(10, 24, 30, 0.5); }
+.sheet__panel { position: relative; width: 100%; max-width: var(--content-max); max-height: 90dvh; overflow-y: auto; background: var(--surface); color: var(--fg); border-radius: 24px 24px 0 0; padding: var(--sp-5) var(--sp-4) calc(var(--sp-5) + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: var(--sp-4); }
+.sheet__panel .btn, .sheet__panel a { text-decoration: none; }
+@media (min-width: 640px) { .sheet { align-items: center; } .sheet__panel { border-radius: 24px; } }
+
+/* 큰 선택 버튼 (처음 방문 / 재방문) */
+.choice { display: flex; align-items: center; gap: var(--sp-4); width: 100%; min-height: 76px; padding: var(--sp-4); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); text-align: left; text-decoration: none; color: inherit; cursor: pointer; }
+.choice__main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.choice__title { font-weight: 700; font-size: var(--fs-lg); }
+.choice__sub { font-size: var(--fs-sm); color: var(--muted); }
+.choice--primary { border-color: var(--primary); background: var(--primary-soft); }
+.choice[aria-disabled="true"] { opacity: 0.55; cursor: not-allowed; }
+
+/* 버튼 모양 카드 (선택형) */
+button.card--selectable { width: 100%; text-align: left; font: inherit; color: inherit; }
+
+/* 뒤로 가기 */
+.appbar__back { width: 40px; height: 40px; margin-left: calc(-1 * var(--sp-2)); display: grid; place-items: center; border: 0; background: transparent; border-radius: 50%; font-size: 1.75rem; line-height: 1; cursor: pointer; color: var(--fg); text-decoration: none; }
+.appbar__spacer { flex: 1; }
+.appbar__step { font-size: var(--fs-sm); color: var(--muted); font-variant-numeric: tabular-nums; }

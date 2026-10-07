@@ -9,5 +9,7 @@
 - `style-guide.html` — 컴포넌트 미리보기
 - `components.html` — 색상·버튼·입력·리스트 목록
 - `css/home.css` — 홈 화면(병원 전경 배경 + 유리 아이콘)
+- `reserve-first.html`, `js/reserve-first.js` — 처음 방문 예약 흐름(4단계)
+- `js/main.js` — 팝업(바텀시트) 열기·닫기
 - `assets/hospital.jpg` — 홈 배경 사진(없으면 그라데이션)
 - `js/main.js` — 스크립트
