@@ -7,4 +7,5 @@
 - `css/base.css` — 리셋과 화면 틀
 - `css/components.css` — 공통 컴포넌트
 - `style-guide.html` — 컴포넌트 미리보기
+- `components.html` — 색상·버튼·입력·리스트 목록
 - `js/main.js` — 스크립트
