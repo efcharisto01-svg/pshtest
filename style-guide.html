@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>스타일 가이드</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+<div class="screen">
+  <header class="appbar"><span class="appbar__title">진료 예약</span></header>
+  <main class="screen__body screen__body--with-bar">
+    <ol class="steps" aria-label="진행 단계"><li data-state="done"></li><li data-state="done"></li><li aria-current="step"></li><li></li><li></li></ol>
+
+    <section class="stack">
+      <h1>진료 시간을 선택해 주세요</h1>
+      <p class="muted">내과 · 김서연 전문의 · 10월 14일(화)</p>
+      <div class="chips">
+        <button class="chip" aria-pressed="false">09:00</button>
+        <button class="chip" aria-pressed="true">09:30</button>
+        <button class="chip" aria-pressed="false">10:00</button>
+        <button class="chip" disabled>10:30</button>
+      </div>
+    </section>
+
+    <section class="stack">
+      <h2>예약자 정보</h2>
+      <div class="field"><label class="field__label" for="name">이름</label><input class="input" id="name" value="홍길동"></div>
+      <div class="field"><label class="field__label" for="phone">연락처</label><input class="input" id="phone" inputmode="tel" aria-invalid="true"><span class="field__error">연락처를 입력해 주세요.</span></div>
+    </section>
+
+    <section class="stack">
+      <h2>예약 내역</h2>
+      <div class="card">
+        <div class="row"><h3>내과 진료</h3><span class="badge badge--warn">결제 대기</span></div>
+        <dl class="summary">
+          <div><dt>진료비</dt><dd>15,000원</dd></div>
+          <div><dt>예약금</dt><dd>3,000원</dd></div>
+          <div class="total"><dt>결제 금액</dt><dd>18,000원</dd></div>
+        </dl>
+      </div>
+      <div class="chips"><span class="badge badge--ok">예약 확정</span><span class="badge badge--info">진료 완료</span><span class="badge badge--danger">취소됨</span></div>
+      <p class="notice">진료 1시간 전까지 무료로 취소할 수 있습니다.</p>
+      <button class="btn btn--secondary btn--block">예약 변경</button>
+    </section>
+  </main>
+  <div class="bottom-bar"><button class="btn btn--block">결제하기</button></div>
+</div>
+</body>
+</html>
