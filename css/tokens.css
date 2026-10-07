@@ -1,0 +1,51 @@
+/* 디자인 토큰: 색·간격·글자·모서리는 전부 여기서만 정의한다 */
+:root {
+  /* 색: 의료 서비스에 맞춘 차분한 청록 + 상태색 */
+  --bg: #f6f8f9;
+  --surface: #ffffff;
+  --fg: #12202a;
+  --muted: #5d6b76;
+  --line: #dbe2e6;
+  --primary: #0b7a75;
+  --primary-fg: #ffffff;
+  --primary-soft: #dff2f0;
+  --focus: #1d6fd6;
+
+  /* 상태색: 예약·결제 상태 표시 전용 */
+  --ok: #1f7a43;       --ok-soft: #e0f3e8;
+  --warn: #8a5a00;     --warn-soft: #fcefd0;
+  --danger: #b3261e;   --danger-soft: #fbe3e1;
+  --info: #1d5fa8;     --info-soft: #e1edf9;
+
+  /* 글자 */
+  --font: "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+  --fs-xs: 0.75rem;  --fs-sm: 0.875rem; --fs-md: 1rem;
+  --fs-lg: 1.125rem; --fs-xl: 1.375rem; --fs-2xl: 1.75rem;
+
+  /* 간격(4px 단위) */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 24px; --sp-6: 32px; --sp-7: 48px;
+
+  /* 모서리·그림자·터치 크기 */
+  --radius-sm: 8px; --radius-md: 12px; --radius-pill: 999px;
+  --shadow: 0 1px 3px rgba(18, 32, 42, 0.08);
+  --touch: 48px;          /* 모든 버튼·입력의 최소 높이 */
+  --content-max: 480px;   /* 모바일 우선, 큰 화면에서도 폭 고정 */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e171c; --surface: #16232b; --fg: #e8eff2; --muted: #98a8b2; --line: #2a3a44;
+    --primary: #3fb8b0; --primary-fg: #06201e; --primary-soft: #153a38; --focus: #6aa8f5;
+    --ok: #62c98a; --ok-soft: #153325; --warn: #e5b04a; --warn-soft: #3a2d10;
+    --danger: #f0867f; --danger-soft: #3d1b19; --info: #7fb4ee; --info-soft: #16304a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e171c; --surface: #16232b; --fg: #e8eff2; --muted: #98a8b2; --line: #2a3a44;
+  --primary: #3fb8b0; --primary-fg: #06201e; --primary-soft: #153a38; --focus: #6aa8f5;
+  --ok: #62c98a; --ok-soft: #153325; --warn: #e5b04a; --warn-soft: #3a2d10;
+  --danger: #f0867f; --danger-soft: #3d1b19; --info: #7fb4ee; --info-soft: #16304a;
+  color-scheme: dark;
+}

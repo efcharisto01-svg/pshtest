@@ -1,0 +1,62 @@
+/* 공통 컴포넌트: 예약 → 결제 화면 전부 이 안에서만 조립한다 */
+
+/* 상단 앱바 */
+.appbar { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: var(--sp-2); min-height: 56px; padding: 0 var(--sp-4); background: var(--surface); border-bottom: 1px solid var(--line); }
+.appbar__title { font-size: var(--fs-lg); font-weight: 700; }
+
+/* 진행 단계 (진료과 → 의사 → 시간 → 확인 → 결제) */
+.steps { display: flex; gap: var(--sp-1); list-style: none; margin: 0; padding: 0; }
+.steps li { flex: 1; height: 6px; border-radius: var(--radius-pill); background: var(--line); }
+.steps li[data-state="done"], .steps li[aria-current="step"] { background: var(--primary); }
+.steps li[aria-current="step"] { opacity: 0.55; }
+
+/* 카드 */
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--sp-4); box-shadow: var(--shadow); min-width: 0; }
+.card--selectable { cursor: pointer; }
+.card--selectable[aria-checked="true"] { border-color: var(--primary); background: var(--primary-soft); }
+
+/* 버튼 */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-2); min-height: var(--touch); padding: 0 var(--sp-5); border: 1px solid transparent; border-radius: var(--radius-md); font-weight: 700; cursor: pointer; background: var(--primary); color: var(--primary-fg); }
+.btn--secondary { background: var(--surface); color: var(--primary); border-color: var(--primary); }
+.btn--ghost { background: transparent; color: var(--muted); }
+.btn--danger { background: var(--danger); color: #fff; }
+.btn--block { display: flex; width: 100%; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* 입력 */
+.field { display: flex; flex-direction: column; gap: var(--sp-2); }
+.field__label { font-size: var(--fs-sm); font-weight: 700; }
+.field__help { font-size: var(--fs-sm); color: var(--muted); }
+.field__error { font-size: var(--fs-sm); color: var(--danger); }
+.input { width: 100%; min-height: var(--touch); padding: 0 var(--sp-4); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); }
+.input[aria-invalid="true"] { border-color: var(--danger); }
+
+/* 선택 칩 (진료 시간대, 진료과) */
+.chips { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.chip { min-height: 44px; padding: 0 var(--sp-4); border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--surface); cursor: pointer; font-variant-numeric: tabular-nums; }
+.chip[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: var(--primary-fg); font-weight: 700; }
+.chip:disabled { opacity: 0.4; text-decoration: line-through; cursor: not-allowed; }
+
+/* 상태 뱃지: 색만으로 구분하지 않고 글자도 같이 쓴다 */
+.badge { display: inline-block; padding: 2px var(--sp-3); border-radius: var(--radius-pill); font-size: var(--fs-xs); font-weight: 700; }
+.badge--ok { background: var(--ok-soft); color: var(--ok); }
+.badge--warn { background: var(--warn-soft); color: var(--warn); }
+.badge--danger { background: var(--danger-soft); color: var(--danger); }
+.badge--info { background: var(--info-soft); color: var(--info); }
+
+/* 내역 목록 (예약 확인, 결제 내역) */
+.summary { margin: 0; display: flex; flex-direction: column; }
+.summary > div { display: flex; justify-content: space-between; gap: var(--sp-4); padding: var(--sp-3) 0; border-bottom: 1px solid var(--line); }
+.summary dt { color: var(--muted); }
+.summary dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+.summary .total { font-weight: 700; font-size: var(--fs-lg); border-bottom: 0; }
+
+/* 하단 고정 행동 버튼 */
+.bottom-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; padding: var(--sp-3) var(--sp-4) calc(var(--sp-3) + env(safe-area-inset-bottom, 0px)); background: var(--surface); border-top: 1px solid var(--line); }
+.bottom-bar > * { max-width: calc(var(--content-max) - 2 * var(--sp-4)); margin-inline: auto; }
+
+/* 안내 문구 */
+.notice { padding: var(--sp-3) var(--sp-4); border-radius: var(--radius-md); background: var(--info-soft); color: var(--info); font-size: var(--fs-sm); }
+.notice--warn { background: var(--warn-soft); color: var(--warn); }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
