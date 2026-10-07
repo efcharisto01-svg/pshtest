@@ -9,7 +9,7 @@
   color: var(--on-photo);
   background:
     linear-gradient(180deg, rgba(8, 24, 30, 0.45) 0%, rgba(8, 24, 30, 0.15) 40%, rgba(8, 24, 30, 0.6) 100%),
-    url("../assets/hospital.jpg") center / cover no-repeat,
+    url("../assets/hospital.jpg") 38% center / cover no-repeat,
     linear-gradient(160deg, #5aa7b5 0%, #2f6f7a 45%, #16363f 100%);
   background-attachment: fixed;
 }
