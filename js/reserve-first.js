@@ -1,7 +1,7 @@
 // 처음 방문 접수 흐름
-//  A) 진료과 선택 → 증상 → (환자정보) → 접수대기 → 접수완료
-//  B) 진료과 추천(인체 모형도 → 질문 → 결과) → 증상 → (환자정보) → 접수대기 → 접수완료
-//  로그인 상태이면 환자정보 단계를 건너뛴다.
+//  A) 진료과 선택 → 증상 → (회원가입) → 접수대기 → 접수완료
+//  B) 진료과 추천(인체 모형도 → 질문 → 결과) → 증상 → (회원가입) → 접수대기 → 접수완료
+//  처음 방문은 접수 전에 회원가입을 받고, 이미 로그인한 상태이면 가입 단계를 건너뛴다.
 (function () {
   // 예시 데이터: 실제 병원 진료과로 교체 예정
   var DEPTS = [
@@ -37,7 +37,9 @@
     ]
   };
 
-  var s = { mode: null, dept: null, part: null, depth: null, type: null, cause: null, symptom: '', gender: null, reco: null, side: 'front', patient: null, ticket: null };
+  var s = { mode: null, dept: null, part: null, depth: null, type: null, cause: null, symptom: '', gender: null, verified: false, signedUp: false, reco: null, side: 'front', patient: null, ticket: null };
+  var PHONE_RE = /^01\d-\d{3,4}-\d{4}$/;
+  var DEMO_CODE = '123456';
   var current = 'mode';
   var trail = [];
 
@@ -84,7 +86,7 @@
   function nextLabel() {
     if (current === 'result') return s.reco.main + '로 접수하기';
     if (current === 'symptom') return user() ? '접수하기' : '다음';
-    if (current === 'patient') return '접수하기';
+    if (current === 'patient') return '가입하고 접수하기';
     if (current === 'status') return '홈으로';
     return '다음';
   }
@@ -180,8 +182,12 @@
     check($('name').value.trim().length >= 2, 'name-err', 'name');
     check(/^(19|20)\d{6}$/.test($('birth').value), 'birth-err', 'birth');
     check(!!s.gender, 'gender-err');
-    check(/^01\d-\d{3,4}-\d{4}$/.test($('phone').value), 'phone-err', 'phone');
-    check($('agree').checked, 'agree-err');
+    check(PHONE_RE.test($('phone').value), 'phone-err', 'phone');
+    check(s.verified, 'verify-err');
+    var pw = $('pw').value;
+    check(pw.length >= 8 && /[A-Za-z]/.test(pw) && /\d/.test(pw), 'pw-err', 'pw');
+    check($('pw2').value === pw && pw !== '', 'pw2-err', 'pw2');
+    check($('terms').checked && $('agree').checked, 'agree-err');
     if (firstBad && $(firstBad)) $(firstBad).focus();
     return ok;
   }
@@ -189,8 +195,13 @@
   // ----- 접수 -----
   function submit() {
     var u = user();
-    s.patient = u ? { name: u.name, birth: u.birth, gender: u.gender, phone: u.phone } :
-      { name: $('name').value.trim(), birth: $('birth').value, gender: s.gender, phone: $('phone').value };
+    if (!u) {
+      // 가입 완료: 입력한 정보로 바로 로그인한다 (비밀번호는 저장하지 않는다)
+      u = { name: $('name').value.trim(), birth: $('birth').value, gender: s.gender, phone: $('phone').value };
+      window.Session.login(u);
+      s.signedUp = true;
+    }
+    s.patient = { name: u.name, birth: u.birth, gender: u.gender, phone: u.phone };
     s.ticket = { no: 'A-' + (10 + Math.floor(Math.random() * 40)), state: 'waiting', at: new Date() };
     renderStatus();
     go('status');
@@ -208,6 +219,7 @@
       if (i === cur) li.setAttribute('aria-current', 'step');
     });
     $('demo-box').hidden = !waiting;
+    $('signup-done').hidden = !s.signedUp;
     var p = s.patient, t = s.ticket.at;
     var rows = [['진료과', s.dept], ['환자', p.name], ['휴대폰', p.phone], ['접수 시각', t.getHours() + ':' + ('0' + t.getMinutes()).slice(-2)], ['증상', s.symptom.trim()]];
     var dl = $('status-summary'); dl.textContent = '';
@@ -255,6 +267,23 @@
       fieldError('gender-err', false);
     });
   });
+  $('send-code').addEventListener('click', function () {
+    if (!PHONE_RE.test($('phone').value)) { fieldError('phone-err', true, 'phone'); $('phone').focus(); return; }
+    fieldError('phone-err', false, 'phone');
+    $('code-box').hidden = false; $('code').focus();
+  });
+  $('check-code').addEventListener('click', function () {
+    var ok = $('code').value === DEMO_CODE;
+    fieldError('code-err', !ok, 'code');
+    s.verified = ok;
+    if (ok) { fieldError('verify-err', false); $('code-help').textContent = '휴대폰 인증이 완료됐어요.'; $('check-code').disabled = true; $('send-code').disabled = true; $('phone').readOnly = true; }
+  });
+  $('code').addEventListener('input', function () { this.value = this.value.replace(/\D/g, ''); });
+  $('have-account').addEventListener('click', function () {
+    window.Session.login();
+    var u = user(); $('login-note').hidden = false; $('login-note').textContent = u.name + '님으로 접수해요.';
+    submit();
+  });
   $('birth').addEventListener('input', function () { this.value = this.value.replace(/\D/g, ''); });
   $('phone').addEventListener('input', function () {
     var d = this.value.replace(/\D/g, '').slice(0, 11);
@@ -262,6 +291,6 @@
   });
 
   var u = user();
-  if (u) { $('login-note').hidden = false; $('login-note').textContent = u.name + '님으로 접수해요. 환자 정보 입력은 건너뛰어요.'; }
+  if (u) { $('login-note').hidden = false; $('login-note').textContent = u.name + '님으로 접수해요. 회원가입은 건너뛰어요.'; }
   go('mode');
 })();

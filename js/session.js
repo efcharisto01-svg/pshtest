@@ -8,7 +8,8 @@
     get: function () {
       try { var v = localStorage.getItem(KEY); return v ? JSON.parse(v) : memory; } catch (e) { return memory; }
     },
-    login: function () { memory = DEMO; try { localStorage.setItem(KEY, JSON.stringify(DEMO)); } catch (e) {} },
+    // user를 주면 그 사용자로, 없으면 데모 사용자로 로그인한다 (비밀번호는 저장하지 않는다)
+    login: function (user) { var u = user || DEMO; memory = u; try { localStorage.setItem(KEY, JSON.stringify(u)); } catch (e) {} },
     logout: function () { memory = null; try { localStorage.removeItem(KEY); } catch (e) {} }
   };
   window.Session = Session;
